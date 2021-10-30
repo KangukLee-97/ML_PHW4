@@ -59,7 +59,6 @@ for ele in joined_qry:
         joined_qry = joined_qry.replace(ele, " ")
 joined_qry=joined_qry.lower()
 
-#스탑워드 오류뜸
 for i in range(1):
     # this will convert
     # the word into tokens
@@ -69,9 +68,6 @@ tokens_without_sw = [
     word for word in text_tokens if not word in stopwords.words()]
 
 print(tokens_without_sw)
-
-# 안돼서 일단 임시
-# tokens_without_sw = [word for word in text_tokens]
 
 
 #----------------------inverted index----------------------
@@ -89,9 +85,24 @@ for i in range(len(new_sentences)):
                     continue
                 else:
                     dict[item].append(i + 1)
-            inverted_document_list.append(dict[item])
-print(inverted_document_list)
-print(len(inverted_document_list))
-# print(dict)
-# inverted_index=pd.DataFrame({"tokens":tokens_without_sw,"documents":inverted_document_list})
-# print(inverted_index)
+
+
+#----------------------Data Frame of inverted index----------------------
+
+k_list = list(dict)
+df1 = pd.DataFrame(k_list)
+v_list = list(dict.values())
+df2 = pd.DataFrame([v_list]).transpose()
+s_list = []
+for i in range(len(v_list)):
+  s_list.append(len(v_list[i]))
+df3 = pd.DataFrame(s_list)
+
+df = pd.concat([df1, df2, df3], axis = 1)
+df.columns = ["tokens", "documentNum","size"]
+
+#----------------------Handling frequent tokens----------------------
+indexNames = df[(df["size"]>=500)].index
+df.drop(indexNames, inplace=True)
+
+print(df)
