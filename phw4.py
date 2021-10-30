@@ -8,6 +8,7 @@ import nltk
 from nltk.corpus import stopwords
 
 
+
 #----------------------document----------------------
 sentences = list()
 with open("cran.all.1400.txt",encoding="UTF-8") as file:
@@ -43,7 +44,9 @@ joined_qry = " ".join(qry)
 keywords=[".T",".I",".A",".B"]
 qry_sentences = list()
 for l in re.split(".I", joined_qry):
-    if l:qry_sentences.append(l)
+    if l:
+        l=re.split(".W",l)
+        qry_sentences.append(l[1])
 
 qry_df=pd.DataFrame({"contents":qry_sentences})
 
@@ -73,16 +76,22 @@ print(tokens_without_sw)
 
 #----------------------inverted index----------------------
 dict = {}
-
-for i in range(line):
+inverted_document_list=[]
+for i in range(len(new_sentences)):
     check = new_sentences[i].lower()
     for item in tokens_without_sw:
-
         if item in check:
             if item not in dict:
                 dict[item] = []
 
             if item in dict:
-                dict[item].append(i + 1)
-
-print(dict)
+                if i+1 in dict[item]:
+                    continue
+                else:
+                    dict[item].append(i + 1)
+            inverted_document_list.append(dict[item])
+print(inverted_document_list)
+print(len(inverted_document_list))
+# print(dict)
+# inverted_index=pd.DataFrame({"tokens":tokens_without_sw,"documents":inverted_document_list})
+# print(inverted_index)
