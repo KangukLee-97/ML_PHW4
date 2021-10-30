@@ -41,13 +41,13 @@ for l in line:
 joined_qry = " ".join(qry)
 
 #----------------------make DataFrame for Query----------------------
-keywords=[".T",".I",".A",".B"]
+
 qry_sentences = list()
 for l in re.split(".I", joined_qry):
     if l:
         l=re.split(".W",l)
         qry_sentences.append(l[1])
-
+joined_qry = " ".join(qry_sentences)
 qry_df=pd.DataFrame({"contents":qry_sentences})
 
 print(qry_df)
@@ -72,7 +72,6 @@ print(tokens_without_sw)
 
 #----------------------inverted index----------------------
 dict = {}
-inverted_document_list=[]
 for i in range(len(new_sentences)):
     check = new_sentences[i].lower()
     for item in tokens_without_sw:
