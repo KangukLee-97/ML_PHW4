@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics import classification_report
 import pandas as pd
 import re
 
@@ -141,3 +142,31 @@ ex1_document_df.insert(loc=1,column="cosine",value=cosine_sim[len(ex1_document_d
 ex1_document_df.sort_values("cosine",ascending=False,inplace=True)
 ex1_document_df.drop_duplicates(inplace=True)
 print(ex1_document_df.head(50))
+
+#----------------------The matrix of cranqrel----------------------
+cranqrel=pd.DataFrame();
+# column_Num=[]
+for i in range(1,1402):
+    cranqrel.insert(i-1,i,0)
+print(cranqrel)
+
+with open("cranqrel.txt", encoding="UTF-8") as file:
+    line = file.readlines()
+for l in line:
+    str = re.findall("\d+", l)
+    if (str[0] in cranqrel.index):
+        cranqrel.loc["{}".format(str[0]), int(str[1])] = 1.0
+    else:
+        cranqrel.loc[str[0]] = 0.0
+        cranqrel.loc["{}".format(str[0]), int(str[1])] = 1.0
+cranqrel = cranqrel.fillna(0.0)
+print(cranqrel)
+
+#----------------------The matrix of example query----------------------
+ex1_cf=pd.DataFrame();
+for i in range(1,1402):
+    ex1_cf.insert(i-1,i,0)
+print(ex1_cf)
+
+n=[3,5,10]
+cs=[0.2,0.1,0.08]
