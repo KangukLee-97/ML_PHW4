@@ -146,7 +146,7 @@ print(ex1_document_df.head(50))
 #----------------------The matrix of cranqrel----------------------
 cranqrel=pd.DataFrame();
 # column_Num=[]
-for i in range(1,1402):
+for i in range(1,1401):
     cranqrel.insert(i-1,i,0)
 print(cranqrel)
 
@@ -162,11 +162,23 @@ for l in line:
 cranqrel = cranqrel.fillna(0.0)
 print(cranqrel)
 
-#----------------------The matrix of example query----------------------
-ex1_cf=pd.DataFrame();
-for i in range(1,1402):
-    ex1_cf.insert(i-1,i,0)
+# ----------------------The matrix of example query----------------------
+ex1_cf = pd.DataFrame();
+for i in range(1, 1401):
+    ex1_cf.insert(i - 1, i, 0)
 print(ex1_cf)
-
-n=[3,5,10]
-cs=[0.2,0.1,0.08]
+n = [3, 5, 10]
+cs = [0.2, 0.1, 0.08]
+ex1_result = []
+for num in n:
+    for e in cs:
+        temp = ex1_document_df.iloc[0:num]
+        t = temp.copy()
+        t.drop(temp[temp["cosine"] >= e].index, inplace=True)
+        ex1_result.append(temp.index.to_list())
+for li in ex1_result:
+    ex1_cf.loc[0] = 0.0
+    for n in li:
+        ex1_cf.loc[0, n] = 1.0
+    ex1_cf=ex1_cf.fillna(0.0)
+    print(classification_report(cranqrel.iloc[1, :].values, ex1_cf.iloc[0, :].values, digits=4))
