@@ -139,5 +139,5 @@ print(cosine_sim)
     #----------------------make dataframe ----------------------
 ex1_document_df.insert(loc=1,column="cosine",value=cosine_sim[len(ex1_document_df),0:-1])
 ex1_document_df.sort_values("cosine",ascending=False,inplace=True)
-print(ex1_document_df)
+ex1_document_df.drop_duplicates(inplace=True)
 print(ex1_document_df.head(50))
