@@ -12,7 +12,7 @@ from nltk.corpus import stopwords
 
 # ---------------------- document ----------------------
 sentences = []
-with open("cran.all.1400.txt", encoding="UTF-8") as file:
+with open("cran/cran.all.1400.txt", encoding="UTF-8") as file:
     line = file.readlines()
     for l in line:
         sentences.append(l.rstrip())
@@ -33,7 +33,7 @@ with open("cran.all.1400.txt", encoding="UTF-8") as file:
 
     # ---------------------- query ----------------------
     qry = []
-    with open("cran.qry.txt", encoding="UTF-8") as file:
+    with open("cran/cran.qry.txt", encoding="UTF-8") as file:
         line = file.readlines()
         for l in line:
             qry.append(l.rstrip())
@@ -151,7 +151,7 @@ with open("cran.all.1400.txt", encoding="UTF-8") as file:
             cranqrel.insert(i - 1, i, 0)
         print(cranqrel)
 
-        with open("cranqrel.txt", encoding="UTF-8") as file:
+        with open("cran/cranqrel.txt", encoding="UTF-8") as file:
             line = file.readlines()
         for l in line:
             str = re.findall("\d+", l)
