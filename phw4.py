@@ -103,7 +103,7 @@ with open("cran.all.1400.txt", encoding="UTF-8") as file:
     # ---------------------- Query test ----------------------
     query_index_list = []
     for i in range(5):
-        ranNum = random.randint(0, qry_df.shape[0])   # 0부터 225까지
+        ranNum = random.randint(0, qry_df.shape[0]-1)   # 0부터 224까지
         query_index_list.append(ranNum)
 
     for q_idx in query_index_list:
